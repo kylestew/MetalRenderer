@@ -15,7 +15,15 @@ let package = Package(
     targets: [
         .target(
             name: "Velour",
-            dependencies: []),
+            dependencies: ["VelourCore"],
+            path: "Sources/Velour"
+        ),
+        .target(
+            name: "VelourCore",
+            path: "Sources/VelourCore",
+            publicHeadersPath: "include",
+            cSettings: [.headerSearchPath("include")]
+        ),
         .testTarget(
             name: "VelourTests",
             dependencies: ["Velour"]),
