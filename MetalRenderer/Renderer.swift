@@ -18,7 +18,7 @@ class Renderer: NSObject {
 
     var timer: Float = 0
 
-    init?(mtkView: MTKView) {
+    init?(metalView: MTKView) {
         guard
             let device = MTLCreateSystemDefaultDevice(),
             let commandQueue = device.makeCommandQueue() else {
@@ -26,9 +26,9 @@ class Renderer: NSObject {
         }
         self.device = device
         self.commandQueue = commandQueue
-        mtkView.device = device
+        metalView.device = device
 
-        let mdlMesh = Primitive.makeCube(device, size: 1)
+        let mdlMesh = Renderer.loadMesh(device: device)
         do {
             mesh = try MTKMesh(mesh: mdlMesh, device: device)
         } catch {
@@ -39,13 +39,39 @@ class Renderer: NSObject {
         do {
             pipelineState = try Renderer.buildRenderPipeline(
                 device: device,
-                pixelFormat: mtkView.colorPixelFormat,
+                pixelFormat: metalView.colorPixelFormat,
                 vertexDescriptor: MTKMetalVertexDescriptorFromModelIO(mdlMesh.vertexDescriptor)!)
         } catch {
             fatalError(error.localizedDescription)
         }
 
-        // MTLBuffer - holds data (i.e. vertex data) in a form that can be sent to the GPU
+//        let translation = float4x4(translation: [0, 0.3, 0])
+//        let rotation = float4x4(rotation: [0, Float(45).degreesToRadians, 0])
+
+        super.init()
+
+        mtkView(metalView, drawableSizeWillChange: metalView.bounds.size)
+    }
+
+    private static func loadMesh(device: MTLDevice) -> MDLMesh {
+        let allocator = MTKMeshBufferAllocator(device: device)
+        guard let assetURL = Bundle.main.url(forResource: "train", withExtension: "obj") else {
+            fatalError()
+        }
+
+        let vertexDescriptor = MTLVertexDescriptor()
+        vertexDescriptor.attributes[0].format = .float3
+        vertexDescriptor.attributes[0].offset = 0
+        vertexDescriptor.attributes[0].bufferIndex = 0
+        vertexDescriptor.layouts[0].stride = MemoryLayout<SIMD3<Float>>.stride
+
+        let meshDescriptor = MTKModelIOVertexDescriptorFromMetal(vertexDescriptor)
+        (meshDescriptor.attributes[0] as! MDLVertexAttribute).name = MDLVertexAttributePosition
+
+        let asset = MDLAsset(url: assetURL,
+                             vertexDescriptor: meshDescriptor,
+                             bufferAllocator: allocator)
+        return asset.childObjects(of: MDLMesh.self).first as! MDLMesh
     }
 
     private static func buildRenderPipeline(
@@ -72,6 +98,9 @@ class Renderer: NSObject {
 
 extension Renderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        let aspect = Float(view.bounds.width) / Float(view.bounds.height)
+//        let projectionMatrix = float4x4()
+        uniforms.projectionMatrix = projectionMatrix
     }
 
     func draw(in view: MTKView) {
