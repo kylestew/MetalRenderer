@@ -5,6 +5,8 @@ open class Object: Codable {
 
     open var label: String = "Object"
 
+    public init() {}
+
     public init(_ label: String, _ children: [Object] = []) {
         self.label = label
         for child in children {

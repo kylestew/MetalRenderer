@@ -27,10 +27,10 @@ class SimpleRenderer: Hearth.Renderer {
     // Meshes inherit from Object, so they have all the properties an object has.
     // A Mesh has unique properties like geometry, material and rendering properties
     // To create renderable object aka a Mesh, you pass it a Geometry and Material like so
-//    var boxMesh = Mesh(geometry: BoxGeometry(size: 1.0), material: BasicDiffuseMaterial(0.75))
+    var boxMesh = Mesh(geometry: BoxGeometry(size: 1.0), material: BasicDiffuseMaterial(0.75))
 
     // Create a time variable so we can change things in our scene over time
-//    var time: Float = 0.0
+    var time: Float = 0.0
 
     // Forge calls setup once after it has a valid MTKView (mtkView)
     override func setup() {
@@ -48,7 +48,7 @@ class SimpleRenderer: Hearth.Renderer {
 //        renderer.setClearColor([1, 1, 1, 1])
 
         // Finally add the box mesh created above to the scene
-//        scene.add(boxMesh)
+        scene.add(boxMesh)
     }
 
     // Forge calls update whenever a new frame is ready to be updated, make scene changes here
@@ -77,15 +77,13 @@ class SimpleRenderer: Hearth.Renderer {
 
     // Forge calls resize whenever the view is resized
     override func resize(_ size: (width: Float, height: Float)) {
-//        // whenever the screen is resized we need to make sure:
-//
-//        // our camera's aspect ratio is set
+        // whenever the screen is resized we need to make sure:
+
+        // our camera's aspect ratio is set
 //        camera.aspect = size.width / size.height
-//
-//        // our renderer's viewport & texture sizes are set
-//        renderer.resize(size)
-//        // if you need to render to a custom viewport, you can specify that after the resize call:
-//        // renderer.viewport = MTLViewport(...)
+
+        // our renderer's viewport & texture sizes are set
+        renderer.resize(size)
     }
 }
 

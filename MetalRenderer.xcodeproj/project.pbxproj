@@ -56,13 +56,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		FFC9043427FFC46B002B5754 /* Forge */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Forge;
-			sourceTree = "<group>";
-		};
 		FFC9043827FFC84B002B5754 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,7 +85,6 @@
 		FFDF9AFA27F61F180069A7D0 /* MetalRenderer */ = {
 			isa = PBXGroup;
 			children = (
-				FFC9043427FFC46B002B5754 /* Forge */,
 				FF85AC2627FFBE4400B14D49 /* Models */,
 				FF56C04027FD5507003B9057 /* Shaders.metal */,
 				FF56C04227FD573E003B9057 /* Primitive.swift */,
