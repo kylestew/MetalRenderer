@@ -15,4 +15,22 @@ open class Mesh: Object {
         fatalError("init(from:) has not been implemented")
     }
 
+    override open func setup() {
+        setupGeometry()
+        setupMaterial()
+    }
+
+    internal func setupGeometry() {
+        guard let context = context else { return }
+        geometry.context = context
+    }
+
+    internal func setupMaterial() {
+        guard let context = context,
+              let material = material else {
+            return
+        }
+        material.context = context
+    }
+
 }

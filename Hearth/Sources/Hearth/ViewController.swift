@@ -42,6 +42,7 @@ open class ViewController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
     }
 
     open override func viewWillAppear(_ animated: Bool) {

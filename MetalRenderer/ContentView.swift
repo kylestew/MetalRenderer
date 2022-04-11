@@ -43,9 +43,9 @@ class SimpleRenderer: Hearth.Renderer {
 
         // Create a Satin Renderer by passing in a context, scene and camera
 //        renderer = Satin.Renderer(context: context, scene: scene, camera: camera)
-        renderer = Velour.Renderer(context: context)
+        renderer = Velour.Renderer(context: context, scene: scene)
         // There are many properties you can set on the renderer, this is how to clear to white
-//        renderer.setClearColor([1, 1, 1, 1])
+        renderer.setClearColor([1, 0, 1, 1])
 
         // Finally add the box mesh created above to the scene
         scene.add(boxMesh)

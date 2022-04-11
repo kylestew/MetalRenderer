@@ -11,10 +11,54 @@ open class Geometry {
 
     public var indexData: [UInt32] = []
 
-    public var context: Context?
+    public var context: Context? {
+        didSet {
+            setup()
+        }
+    }
 
     public var vertexBuffer: MTLBuffer?
     public var indexBuffer: MTLBuffer?
+
+    public init() {}
+
+    public init(_ geometryData: inout GeometryData) {
+        setFrom(&geometryData)
+    }
+
+    func setup() {
+        setupVertexBuffer()
+        setupIndexBuffer()
+    }
+
+    func setupVertexBuffer() {
+        guard let context = context else { return }
+        let device = context.device
+        if !vertexData.isEmpty {
+            let stride = MemoryLayout<Vertex>.stride
+            let verticesSize = vertexData.count * stride
+
+//            if let vertexBuffer = vertexBuffer,
+//               vertexBuffer.length == verticesSize {
+//
+//            }
+
+            vertexBuffer = device.makeBuffer(bytes: vertexData, length: verticesSize, options: [])
+            vertexBuffer?.label = "Vertices"
+
+        } else {
+            vertexBuffer = nil
+        }
+    }
+
+    func setupIndexBuffer() {
+        guard let context = context else { return }
+        let device = context.device
+
+        let indicesSize = indexData.count * MemoryLayout.size(ofValue: indexData[0])
+        indexBuffer = device.makeBuffer(bytes: indexData, length: indicesSize, options: [])
+        indexBuffer?.label = "Indices"
+    }
 
     public func setFrom(_ geometryData: inout GeometryData) {
         let vertexCount = Int(geometryData.vertexCount)

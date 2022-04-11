@@ -16,7 +16,8 @@ let package = Package(
         .target(
             name: "Velour",
             dependencies: ["VelourCore"],
-            path: "Sources/Velour"
+            path: "Sources/Velour",
+            resources: [.copy("Pipelines")]
         ),
         .target(
             name: "VelourCore",
@@ -27,5 +28,6 @@ let package = Package(
         .testTarget(
             name: "VelourTests",
             dependencies: ["Velour"]),
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )

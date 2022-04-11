@@ -20,3 +20,9 @@ open class Context {
         self.stencilPixelFormat = stencilPixelFormat
     }
 }
+
+extension Context: Equatable {
+    public static func == (lhs: Context, rhs: Context) -> Bool {
+        return (lhs.device.name == rhs.device.name && lhs.sampleCount == rhs.sampleCount && lhs.colorPixelFormat == rhs.colorPixelFormat && lhs.depthPixelFormat == rhs.depthPixelFormat && lhs.stencilPixelFormat == rhs.stencilPixelFormat)
+    }
+}
